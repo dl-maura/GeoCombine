@@ -53,11 +53,9 @@
 </xsl:variable>
 
   <xsl:variable name="lowerCorner">
-
-      <xsl:value-of select="number(metadata/idinfo/spdom/bounding/westbc)"/>
-      <xsl:text> </xsl:text>
-      <xsl:value-of select="number(metadata/idinfo/spdom/bounding/southbc)"/>
-
+    <xsl:value-of select="number(metadata/idinfo/spdom/bounding/westbc)"/>
+    <xsl:text> </xsl:text>
+    <xsl:value-of select="number(metadata/idinfo/spdom/bounding/southbc)"/>
   </xsl:variable>
   <xsl:variable name="x2" select="number(metadata/idinfo/spdom/bounding/eastbc)"/><!-- E -->
   <xsl:variable name="x1" select="number(metadata/idinfo/spdom/bounding/westbc)"/><!-- W -->
@@ -85,11 +83,10 @@
     </xsl:choose>
   </xsl:variable>
 
-
   <xsl:variable name="uuid">
     <xsl:choose>
       <xsl:when test="$institution = 'Harvard'">
-        <xsl:value-of select="substring-after(metadata/idinfo/citation/citeinfo/onlink, 'CollName=')"/>
+        <xsl:value-of select="substring-after(metadata/idinfo/citation/citeinfo/onlink, 'harvard-')"/>
       </xsl:when>
       <xsl:when test="$institution = 'MIT'">
         <xsl:value-of select="metadata/spdoinfo/ptvctinf/sdtsterm/@Name"/>
@@ -100,6 +97,18 @@
     </xsl:choose>
   </xsl:variable>
 
+  <xsl:variable name="geoserver_root">
+  <!-- replace me! -->
+    <xsl:text>https://geoserver.org/geoserver</xsl:text>
+  </xsl:variable>
+
+  <xsl:variable name="fgdc_base">
+  <!-- replace me! -->
+    <xsl:text>https://github.com/</xsl:text>
+  </xsl:variable>
+
+  <xsl:variable name="lowercase" select="'abcdefghijklmnopqrstuvwxyz'" />
+  <xsl:variable name="uppercase" select="'ABCDEFGHIJKLMNOPQRSTUVWXYZ'" />
 
   <xsl:template match="metadata">
     <xsl:text>{</xsl:text>
@@ -115,7 +124,7 @@
     <xsl:text>",</xsl:text>
 
     <xsl:text>"dc_description_s": "</xsl:text>
-    <xsl:value-of select="idinfo/descript/abstract"/>
+    <xsl:value-of select="normalize-space(idinfo/descript/abstract)"/>
     <xsl:text>",</xsl:text>
 
     <xsl:text>"dc_rights_s": "</xsl:text>
@@ -154,50 +163,32 @@
     <xsl:value-of select="$institution"/>
     <xsl:text>",</xsl:text>
 
- <!--       <field name="dct_references_s">
-          <xsl:text>{</xsl:text>
-          <xsl:text>"http://schema.org/url":"</xsl:text>
-          <xsl:value-of select="$purl"/>
-          <xsl:text>",</xsl:text>
-          <xsl:text>"http://schema.org/thumbnailUrl":"</xsl:text>
-          <xsl:value-of select="$stacks_root"/>
-          <xsl:text>/file/druid:</xsl:text>
-          <xsl:value-of select="$druid"/>
-          <xsl:text>/preview.jpg",</xsl:text>
-          <xsl:text>"http://schema.org/DownloadAction":"</xsl:text>
-          <xsl:value-of select="$stacks_root"/>
-          <xsl:text>/file/druid:</xsl:text>
-          <xsl:value-of select="$druid"/>
-          <xsl:text>/data.zip",</xsl:text>
-          <xsl:text>"http://www.loc.gov/mods/v3":"</xsl:text>
-          <xsl:text>http://earthworks.stanford.edu/opengeometadata/layers/edu.stanford.purl/</xsl:text>
-          <xsl:value-of select="$druid"/>
-          <xsl:text>/mods",</xsl:text>
-          <xsl:text>"http://www.isotc211.org/schemas/2005/gmd/":"</xsl:text>
-          <xsl:text>http://earthworks.stanford.edu/opengeometadata/layers/edu.stanford.purl/</xsl:text>
-          <xsl:value-of select="$druid"/>
-          <xsl:text>/iso19139",</xsl:text>
-          <xsl:text>"http://www.opengis.net/def/serviceType/ogc/wms":"</xsl:text>
-          <xsl:value-of select="$geoserver_root"/>
-          <xsl:text>/wms",</xsl:text>
-          <xsl:text>"http://www.opengis.net/def/serviceType/ogc/wfs":"</xsl:text>
-          <xsl:value-of select="$geoserver_root"/>
-          <xsl:text>/wfs",</xsl:text>
-          <xsl:text>"http://www.opengis.net/def/serviceType/ogc/wcs":"</xsl:text>
-          <xsl:value-of select="$geoserver_root"/>
-          <xsl:text>/wcs"</xsl:text>
-          <xsl:text>}</xsl:text>
-        </field>  -->
-
+<!-- Uncomment me to use this section after replacing relevant vairables
+    <xsl:text>"dct_references_s": "</xsl:text>
+      <xsl:text>{</xsl:text>
+      <xsl:text>\"http://www.opengis.net/cat/csw/csdgm\":\"</xsl:text>
+      <xsl:value-of select="$fgdc_base"/>
+      <xsl:text>/</xsl:text>
+      <xsl:value-of select="$uuid"/>
+      <xsl:text>.xml\",</xsl:text>
+      <xsl:text>\"http://www.opengis.net/def/serviceType/ogc/wms\":\"</xsl:text>
+      <xsl:value-of select="$geoserver_root"/>
+      <xsl:text>/wms\",</xsl:text>
+      <xsl:text>\"http://www.opengis.net/def/serviceType/ogc/wfs\":\"</xsl:text>
+      <xsl:value-of select="$geoserver_root"/>
+      <xsl:text>/wfs\"</xsl:text>
+      <xsl:text>}</xsl:text>
+    <xsl:text>",</xsl:text>
+-->
     <xsl:text>"layer_id_s": "</xsl:text>
     <xsl:text>urn:</xsl:text>
     <xsl:value-of select="$uuid"/>
     <xsl:text>",</xsl:text>
 
     <xsl:text>"layer_slug_s": "</xsl:text>
-    <xsl:value-of select="$institution"/>
+    <xsl:value-of select="translate($institution, $uppercase, $lowercase)"/>
     <xsl:text>-</xsl:text>
-    <xsl:value-of select="$uuid"/>
+    <xsl:value-of select="translate($uuid, $uppercase, $lowercase)"/>
     <xsl:text>",</xsl:text>
 
     <xsl:choose>
@@ -211,7 +202,6 @@
         <xsl:text>Point</xsl:text>
         <xsl:text>",</xsl:text>
       </xsl:when>
-
       <xsl:when test="contains(metadata/spdoinfo/ptvctinf/sdtsterm/sdtstype, 'String')">
         <xsl:text>"layer_geom_type_s": "</xsl:text>
         <xsl:text>Line</xsl:text>
@@ -222,9 +212,12 @@
         <xsl:text>Raster</xsl:text>
         <xsl:text>",</xsl:text>
       </xsl:when>
+      <xsl:otherwise>
+        <xsl:text>"layer_geom_type_s": "</xsl:text>
+        <xsl:text>Unknown</xsl:text>
+        <xsl:text>",</xsl:text>
+      </xsl:otherwise>
     </xsl:choose>
-
-
 
     <xsl:choose>
       <xsl:when test="string-length(metainfo/metd)=4">
