@@ -104,7 +104,7 @@
 
   <xsl:variable name="fgdc_base">
   <!-- replace me! -->
-    <xsl:text>https://github.com/</xsl:text>
+    <xsl:text>https://github.com</xsl:text>
   </xsl:variable>
 
   <xsl:variable name="lowercase" select="'abcdefghijklmnopqrstuvwxyz'" />
