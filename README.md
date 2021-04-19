@@ -41,6 +41,20 @@ Or install it yourself as:
 > iso_metadata.to_html
 ```
 
+```ruby
+# Create a new ISO19139 object
+> fgdc_metadata =  GeoCombine::Fgdc.new('./tmp/opengeometadata/edu.harvard/10/116/195/195/fgdc.xml')
+
+# Convert FGDC to GeoBlacklight
+> fgdc_metadata.to_geoblacklight
+
+# Convert that to JSON
+> fgdc_metadata.to_geoblacklight.to_json
+```
+
+#### Notes on XSLT
+The FGDC xslt (fgdc2geoBL.xsl) is customizable, specifically the dct_references_s section. To make this applicable to your institution, you will want to modify the geoserver_root and fgdc_base variables, and potentially the dct_references_s section of the xslt depending on how you structure your links. You can do this inside the installed gem, but we recommend forking and maintaining your custom variables. This section is commented out by default to prevent use without updating the variables.
+
 ### OpenGeoMetadata
 
 #### Clone OpenGeoMetadata repositories locally
